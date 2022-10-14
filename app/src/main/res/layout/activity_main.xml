@@ -242,4 +242,28 @@
             app:layout_row="5" />
 
     </androidx.gridlayout.widget.GridLayout>
+
+    <TextView
+        android:id="@+id/txtEscribir"
+        android:layout_width="367dp"
+        android:layout_height="82dp"
+        android:layout_marginStart="22dp"
+        android:layout_marginTop="23dp"
+        android:layout_marginEnd="22dp"
+        android:text="TextViewCentrate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txtResultado"
+        android:layout_width="367dp"
+        android:layout_height="82dp"
+        android:layout_marginStart="22dp"
+        android:layout_marginTop="35dp"
+        android:layout_marginEnd="22dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtEscribir" />
 </androidx.constraintlayout.widget.ConstraintLayout>
