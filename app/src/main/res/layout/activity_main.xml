@@ -7,6 +7,7 @@
     tools:context=".MainActivity">
 
     <androidx.gridlayout.widget.GridLayout
+        android:id="@+id/tablita"
         android:layout_width="376dp"
         android:layout_height="288dp"
         android:layout_marginStart="18dp"
