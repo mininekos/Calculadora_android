@@ -12,7 +12,7 @@
     <string name="num9">9</string>
     <string name="suma">+</string>
     <string name="resta">-</string>
-    <string name="multiplicacion">*</string>
+    <string name="multiplicacion">X</string>
     <string name="division">/</string>
     <string name="igual">=</string>
     <string name="punto">.</string>
