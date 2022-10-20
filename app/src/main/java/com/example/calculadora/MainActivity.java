@@ -31,10 +31,12 @@ public class MainActivity extends AppCompatActivity {
     public ActivityMainBinding getBinding(){return binding;}
 
     public void agregarNumero(String numero){
-        if(operacion==false){
-            punto=true;
-        }
+        if(!binding.txtResultado.equals(""))
+            binding.txtResultado.setText("");
         if(estadoNumero==true){
+            if(operacion==false){
+                punto=true;
+            }
             operacion=true;
             cadena.append(numero);
             binding.txtEscribir.setText(cadena);
@@ -45,14 +47,17 @@ public class MainActivity extends AppCompatActivity {
         if(operacion==true){
             operacion=false;
             punto=false;
+            estadoNumero=true;
             if(operando=="")
                 operando=operador;
             else{
                 calcular();
                 operando = operador;
                 }
-            cadena.append(operador);
-            binding.txtEscribir.setText(cadena);
+            if(binding.txtResultado.getText().length()==0) {
+                cadena.append(operador);
+                binding.txtEscribir.setText(cadena);
+            }
         }
     }
 
@@ -89,8 +94,9 @@ public class MainActivity extends AppCompatActivity {
                     cadena.setLength(0);
                     cadena.append(cache);
                     binding.txtEscribir.setText(cadena);
+
                 }
-                else{
+                else {
                     cadena.setLength(0);
                     cadena.append(num1);
                     binding.txtEscribir.setText(cadena);
@@ -98,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
             else{
-                if(igual==true && cadena.length()!=0){
+                if(igual==true && cadena.length()!=0 && num1!=Double.parseDouble(cadena.substring(0, cadena.length()-1))){
                     cache = Double.parseDouble(cadena.substring(0, cadena.length()-1));
                     cadena.append(cache);
                     binding.txtEscribir.setText(cadena);
@@ -106,12 +112,14 @@ public class MainActivity extends AppCompatActivity {
             }
             if(cadena.toString().contains("Infinity")){
                 limpiar();
-                binding.txtEscribir.setText("Division entre cero");
+                binding.txtResultado.setText("Division entre cero");
+
             }
+            igual=false;
         }
         catch (Exception e){
             limpiar();
-            binding.txtEscribir.setText("Error");
+            binding.txtResultado.setText("Error "+e.getMessage());
 
         }
     }
@@ -120,6 +128,7 @@ public class MainActivity extends AppCompatActivity {
         this.cache=0.0;
         cadena = new StringBuilder();
         binding.txtEscribir.setText("");
+        binding.txtResultado.setText("");
         operacion=false;
         estadoNumero=true;
         punto=false;
@@ -135,10 +144,10 @@ public class MainActivity extends AppCompatActivity {
             cadena.append(".");
             binding.txtEscribir.setText(cadena);
         }
-
     }
 
     public void hacerCalculo() {
+        estadoNumero=false;
         igual=true;
         calcular();
     }
