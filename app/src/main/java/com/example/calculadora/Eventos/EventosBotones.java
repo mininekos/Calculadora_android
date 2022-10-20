@@ -47,6 +47,7 @@ public class EventosBotones implements View.OnClickListener {
             case R.id.btnMasMenos:
                 break;
             case R.id.btnIgual:
+                calculadora.hacerCalculo();
                 break;
             case R.id.btnPunto:
                 calculadora.agregarPunto();
