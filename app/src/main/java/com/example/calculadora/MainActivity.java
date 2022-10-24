@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(view);
         new EventosBotones(this);
         //Declaracion de variables
+        cadena= new StringBuilder();
         limpiar();
     }
 
@@ -31,17 +32,17 @@ public class MainActivity extends AppCompatActivity {
     public ActivityMainBinding getBinding(){return binding;}
 
     public void agregarNumero(String numero){
-        /*if(!binding.txtResultado.equals(""))
-            binding.txtResultado.setText("");*/
-        if(igual==true){
-            limpiar();
+
+        if(estadoNumero==true){
+            if(!binding.txtResultado.equals(""))
+                binding.txtResultado.setText("");
+            if(operacion==false){
+                punto=true;
+            }
+            operacion=true;
+            cadena.append(numero);
+            binding.txtEscribir.setText(cadena);
         }
-        if(operacion==false){
-            punto=true;
-        }
-        operacion=true;
-        cadena.append(numero);
-        binding.txtEscribir.setText(cadena);
     }
 
     public void ageragarOperador(String operador) {
@@ -65,13 +66,16 @@ public class MainActivity extends AppCompatActivity {
     public void calcular( ){
         int operador = cadena.indexOf(operando);
         try {
-            if(operador!=-1 && operador+1!=cadena.length()) {
+            if((operador!=-1 && operador+1!=cadena.length()) || igual==true) {
                 if(igual==false) {
                     num1 = Double.parseDouble(cadena.substring(0, operador));
                     num2 = Double.parseDouble(cadena.substring(operador + 1, cadena.length()));
                 }else{
-                    num1 = Double.parseDouble(cadena.substring(0, operador));
-                    if(cadena.substring(operador + 1, cadena.length()).length()!=0){
+                    if(operando=="")
+                        num1 = Double.parseDouble(cadena.substring(0, cadena.length()));
+                    else
+                        num1 = Double.parseDouble(cadena.substring(0, operador));
+                    if(operando!="" && cadena.substring(operador + 1, cadena.length()).length()!=0){
                         num2 = Double.parseDouble(cadena.substring(operador + 1, cadena.length()));
                     }
                     else
@@ -92,43 +96,36 @@ public class MainActivity extends AppCompatActivity {
                             cache = num1 / num2;
                             break;
                     }
+                    operando="";
                     cadena.setLength(0);
                     cadena.append(cache);
                     binding.txtEscribir.setText(cadena);
 
                 }
                 else {
+                    operando="";
                     cadena.setLength(0);
                     cadena.append(num1);
                     binding.txtEscribir.setText(cadena);
                 }
 
             }
-            else{
-                if(igual==true && num1!=Double.parseDouble(cadena.substring(0, cadena.length()-1))){
-                    if(operando!="")
-                        cadena.setLength(cadena.length()-1);
-                    cache = Double.parseDouble(cadena.substring(0, cadena.length()-1));
-                    cadena.append(cache);
-                    binding.txtEscribir.setText(cadena);
-                }
-            }
+
             if(cadena.toString().contains("Infinity")) {
                 limpiar();
                 binding.txtResultado.setText("Division entre cero");
-
             }
+            igual=false;
         }
         catch (Exception e){
             limpiar();
             binding.txtResultado.setText("Error "+e.getMessage());
-
         }
     }
 
     public void limpiar() {
         this.cache=0.0;
-        cadena = new StringBuilder();
+        cadena.setLength(0);
         binding.txtEscribir.setText("");
         binding.txtResultado.setText("");
         operacion=false;
@@ -152,6 +149,9 @@ public class MainActivity extends AppCompatActivity {
         if(cadena.length()!=0) {
             igual = true;
             calcular();
+            if(binding.txtEscribir.length()!=0)
+                operacion=true;
+            estadoNumero=false;
         }
 
     }
