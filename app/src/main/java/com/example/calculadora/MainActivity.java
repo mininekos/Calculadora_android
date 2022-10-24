@@ -31,16 +31,17 @@ public class MainActivity extends AppCompatActivity {
     public ActivityMainBinding getBinding(){return binding;}
 
     public void agregarNumero(String numero){
-        if(!binding.txtResultado.equals(""))
-            binding.txtResultado.setText("");
-        if(estadoNumero==true){
-            if(operacion==false){
-                punto=true;
-            }
-            operacion=true;
-            cadena.append(numero);
-            binding.txtEscribir.setText(cadena);
+        /*if(!binding.txtResultado.equals(""))
+            binding.txtResultado.setText("");*/
+        if(igual==true){
+            limpiar();
         }
+        if(operacion==false){
+            punto=true;
+        }
+        operacion=true;
+        cadena.append(numero);
+        binding.txtEscribir.setText(cadena);
     }
 
     public void ageragarOperador(String operador) {
@@ -64,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
     public void calcular( ){
         int operador = cadena.indexOf(operando);
         try {
-            if(operador!=-1) {
+            if(operador!=-1 && operador+1!=cadena.length()) {
                 if(igual==false) {
                     num1 = Double.parseDouble(cadena.substring(0, operador));
                     num2 = Double.parseDouble(cadena.substring(operador + 1, cadena.length()));
@@ -104,18 +105,19 @@ public class MainActivity extends AppCompatActivity {
 
             }
             else{
-                if(igual==true && cadena.length()!=0 && num1!=Double.parseDouble(cadena.substring(0, cadena.length()-1))){
+                if(igual==true && num1!=Double.parseDouble(cadena.substring(0, cadena.length()-1))){
+                    if(operando!="")
+                        cadena.setLength(cadena.length()-1);
                     cache = Double.parseDouble(cadena.substring(0, cadena.length()-1));
                     cadena.append(cache);
                     binding.txtEscribir.setText(cadena);
                 }
             }
-            if(cadena.toString().contains("Infinity")){
+            if(cadena.toString().contains("Infinity")) {
                 limpiar();
                 binding.txtResultado.setText("Division entre cero");
 
             }
-            igual=false;
         }
         catch (Exception e){
             limpiar();
@@ -147,8 +149,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void hacerCalculo() {
-        estadoNumero=false;
-        igual=true;
-        calcular();
+        if(cadena.length()!=0) {
+            igual = true;
+            calcular();
+        }
+
     }
 }
